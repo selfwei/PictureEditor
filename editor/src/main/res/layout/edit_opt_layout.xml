@@ -133,7 +133,7 @@
             app:layout_constraintEnd_toEndOf="@+id/layout_op_sub"
             app:layout_constraintBottom_toBottomOf="@+id/layout_op_sub">
 
-            <com.vachel.editor.ui.CustomColorGroup
+            <com.process.editor.ui.CustomColorGroup
                 android:id="@+id/cg_colors"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

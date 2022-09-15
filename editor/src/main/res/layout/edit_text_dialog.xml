@@ -89,7 +89,7 @@
             android:layout_marginEnd="2dp"
             android:background="@android:color/darker_gray" />
 
-        <com.vachel.editor.ui.CustomColorGroup
+        <com.process.editor.ui.CustomColorGroup
             android:id="@+id/cg_colors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
