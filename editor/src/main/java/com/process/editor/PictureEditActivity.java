@@ -26,6 +26,7 @@ import com.process.editor.ui.widget.TextEditDialog;
 import com.process.editor.util.BitmapUtil;
 import com.process.editor.util.Utils;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 
 public class PictureEditActivity extends AppCompatActivity implements View.OnClickListener,
@@ -37,6 +38,8 @@ public class PictureEditActivity extends AppCompatActivity implements View.OnCli
         PictureEditView.IOnPathListener {
     public static final String EXTRA_IMAGE_URI = "image_uri";
     public static final String RESULT_IMAGE_SAVE_PATH = "result_image_save_path";
+    /** 可选：传入原图文件绝对路径，编辑完成后将保存到同一目录 */
+    public static final String EXTRA_ORIGINAL_FILE_PATH = "original_file_path";
 
     private static final Integer SCREEN_WIDTH = 1920;
     private static final Integer SCREEN_HEIGHT = 1200;
@@ -159,7 +162,7 @@ public class PictureEditActivity extends AppCompatActivity implements View.OnCli
         } else if (vid == R.id.btn_undo) {
             onUndoClick();
         } else if (vid == R.id.tv_done) {
-            mPictureEditView.saveEdit(this);
+            mPictureEditView.saveEdit(this, getSaveDirectory());
         } else if (vid == R.id.tv_cancel) {
             onCancelClick();
         } else if (vid == R.id.ib_clip_cancel) {
@@ -267,6 +270,23 @@ public class PictureEditActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onDismiss(DialogInterface dialog) {
         mOpSwitcher.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 获取编辑后图片的保存目录。
+     * 如果调用方传入了 EXTRA_ORIGINAL_FILE_PATH，则优先使用原图所在目录；
+     * 否则返回 null，由 PictureEditView 使用默认路径（DCIM/edit 等）。
+     */
+    protected String getSaveDirectory() {
+        String originalPath = getIntent().getStringExtra(EXTRA_ORIGINAL_FILE_PATH);
+        if (originalPath != null && !originalPath.isEmpty()) {
+            File originalFile = new File(originalPath);
+            File parent = originalFile.getParentFile();
+            if (parent != null) {
+                return parent.getAbsolutePath();
+            }
+        }
+        return null;
     }
 
     public Bitmap getBitmap() {

@@ -100,6 +100,23 @@ public class Utils {
         return saveSuccess ? path : "";
     }
 
+    /**
+     * 将 bitmap 保存到指定目录
+     * @param context Context
+     * @param bitmap  待保存的 Bitmap
+     * @param targetDir 目标目录绝对路径
+     * @return 保存成功返回完整文件路径，失败返回空字符串
+     */
+    public static String saveBitmapToDir(Context context, Bitmap bitmap, String targetDir) {
+        if (bitmap == null || targetDir == null) {
+            return "";
+        }
+        String displayName = "image_" + getCurrentFormatTime() + ".jpg";
+        String path = targetDir + File.separator + displayName;
+        boolean saveSuccess = BitmapUtil.saveBitmapFile(bitmap, path);
+        return saveSuccess ? path : "";
+    }
+
     private static String getCurrentFormatTime() {
         return new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
     }
